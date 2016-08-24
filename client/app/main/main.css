@@ -1,3 +1,21 @@
+button {
+    background-color: #4393B9;
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 10px;
+}
+button:disabled {
+    background: #e7e7e7;
+    color: #939393;
+    text-decoration: none;
+    border: none;
+    border-radius: 10px;
+}
+audio {
+    display: none;
+}
+
 .thing-form {
     margin: 20px 0;
 }
@@ -28,3 +46,74 @@
     margin-top: 70px;
     border-top: 1px solid #E5E5E5;
 }
+
+.date-picker {
+    text-align: center;
+    width: 300px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#showMed {
+    width: 100%;
+    padding: 10px;
+    font-weight: bold;
+}
+
+.listMeds {
+    padding: 5px;
+    margin: 10px;
+    color: #5e5e5e;
+    text-align: left;
+    border: #4393B9 solid 2px;
+    border-radius: 25px;
+}
+.missedListMeds {
+    padding: 5px;
+    margin: 10px;
+    color: #5e5e5e;
+    padding-left:20px;
+    border: #939393 solid 2px;
+    border-radius: 25px;
+}
+
+.completeMed {
+    color: #77dd77;
+}
+
+.incompleteMed{
+    color: #ff6961;
+}
+
+.missedMed{
+    color: #939393;
+}
+
+.category-title {
+    text-align: center;
+}
+
+.icon-container{
+    left: 35px;
+    top: 25px;
+}
+.icon-container.incomplete{
+    left: 35px;
+    top: 40px;
+}
+
+.glyphicon-ok-circle {
+    color: #77dd77;
+    font-size:20px;
+}
+
+.glyphicon-time {
+    font-size:20px;
+}
+
+.glyphicon-exclamation-sign {
+    color: #ff6961;
+    font-size:20px;
+}
+

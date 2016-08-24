@@ -2,20 +2,93 @@
 
 <header class="hero-unit" id="banner">
   <div class="container">
-      <h1>{{currentTime}}</h1>
+    <h1>{{currentTime}}</h1>
   </div>
 </header>
+<br>
 <div class="container">
   <div class="row">
-    <div class="col-lg-6 col-lg-offset-3 text-center">
-        <div ng-repeat="m in meds">
-            {{m.time}} {{m.name}} {{m.dosage}}
+    <div class="col-lg-4">
+
+      <div class="date-picker form-horizontal" ng-controller="DatepickerCtrl">
+        <h3 class="category-title">{{currentDate}}</h3>
+        <input type="text" datepicker="MM/dd/yyyy" ng-model="dt" is-open="opened" min="minDate" max="'2015-06-22'" datepicker-options="dateOptions" ng-required="true" />
+        </br>
+        <button id="showMed" ng-click="getMeds()">Show Medications</button>
+      </div>
+      <hr>
+      <!-- Complete meds -->
+      <h3 class="category-title">Complete Medications</h3>
+      <div ng-repeat="m in meds | orderBy: 'time' | filter:{completed:true}">
+        <div class="listMeds">
+          <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 icon-container">
+              <span class="glyphicon glyphicon-ok-circle"></span>
+            </div>
+            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+              <div ng-bind="m.time | date:'MMMM d, yyyy - h:mm:ss a'">{{m.time}}</div>
+              {{m.name}}</br>
+              {{m.dosage}}</br>
+              <div class="completeMed">Complete</div>
+            </div>
+          </div>
         </div>
+      </div>
+    </div>
+    <!-- Incomplete meds -->
+    <div class="col-lg-4">
+      <h3 class="category-title">Incomplete Medications</h3>
+      <div ng-repeat="m in meds | orderBy: 'time' | filter:{completed:false}" ng-if="checkTime(m) != 'missed'">
+        <div class="listMeds">
+          <div class="row">
+            <div ng-if="checkTime(m) == 'notTimeYet'">
+              <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 icon-container incomplete">
+                <span class="glyphicon glyphicon-time"></span>
+              </div>
+            </div>
+            <div ng-if="checkTime(m) != 'notTimeYet'">
+              <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 icon-container incomplete">
+                <span class="glyphicon glyphicon-exclamation-sign"></span>
+              </div>
+            </div>
+            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+              <div ng-bind="m.time | date:'MMMM d, yyyy - h:mm:ss a'">{{m.time}}</div>
+              {{m.name}}</br>
+              {{m.dosage}}</br>
+              <div class="incompleteMed">Incomplete</div>
+              <div ng-if="checkTime(m) == 'onTime'" >
+                <audio autoplay="true" loop>
+                  <source src="assets/sounds/calm-beep.mp3" type="audio/mpeg">
+                </audio>
+              </div>
+              <div ng-if="checkTime(m) == 'aboutToGetMissed'" >
+                <audio autoplay="true" loop>
+                  <source src="assets/sounds/sharp-beep.mp3" type="audio/mpeg">
+                </audio>
+              </div>
+              <button ng-disabled="checkTime(m) == 'notTimeYet'" ng-controller="UpdateMedCtrl" ng-click="updateMeds(m)">Complete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Missed meds -->
+    <div class="col-lg-4">
+      <h3 class="category-title">Missed Medications</h3>
+      <div ng-repeat="m in meds | orderBy: 'time' | filter:{completed:false}" ng-if="checkTime(m) == 'missed'">
+        <div class="missedListMeds">
+          <div ng-bind="m.time | date:'MMMM d, yyyy - h:mm:ss a'">{{m.time}}</div>
+          {{m.name}}</br>
+          {{m.dosage}}</br>
+          <div class="missedMed">Missed</div>
+          <button ng-controller="UpdateMedCtrl" ng-click="updateMeds(m)">Complete</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 <footer class="footer">
   <div class="container">
-      <p>© 2016 Mavencare™, made with <span class="glyphicon glyphicon-heart heart-red"></span> for better healthcare.</p>
+    <p>© 2016 Mavencare™, made with <span class="glyphicon glyphicon-heart heart-red"></span> for better healthcare.</p>
   </div>
 </footer>
